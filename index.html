@@ -17,7 +17,7 @@
 
 <script>
   // Captura o código do convite (última parte da URL)
-  const pathParts = window.location.pathname.split('/');
+  const pathParts = window.location.pathname.replace(/\/$/, '').split('/');
   const code = pathParts[pathParts.length - 1];
 
   // Se for um código válido, salva para uso no app
