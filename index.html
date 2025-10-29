@@ -15,31 +15,36 @@
     <p class="note">Se o download não iniciar automaticamente, clique no botão acima.</p>
   </div>
 
-  <script type="module">
-    // 🔹 Obter código do link: /invite/XXXXXX
-    const urlParts = window.location.pathname.split('/');
-    const code = urlParts[urlParts.length - 1];
+<script>
+  // Captura o código do convite (última parte da URL)
+  const pathParts = window.location.pathname.split('/');
+  const code = pathParts[pathParts.length - 1];
 
-    // 🔹 Salvar código no localStorage
+  // Se for um código válido, salva para uso no app
+  if (code && code !== 'invite') {
     localStorage.setItem('referralCode', code);
+  }
 
-    // 🔹 Mostrar mensagem
-    const infoEl = document.getElementById('info');
-    infoEl.innerHTML = code 
-      ? `Você foi convidado com o código: <strong>${code}</strong>` 
-      : "Você está prestes a baixar o aplicativo.";
+  // Atualiza texto na página
+  const infoEl = document.getElementById('info');
+  if (code && code !== 'invite') {
+    infoEl.innerHTML = `Você foi convidado com o código: <strong>${code}</strong>`;
+  } else {
+    infoEl.textContent = 'Baixe o aplicativo e comece a usar agora mesmo.';
+  }
 
-    // 🔹 Configurar download do APK
-    const apkUrl = 'app-debug.apk'; // arquivo hospedado no Netlify
-    const downloadBtn = document.getElementById('downloadBtn');
-    downloadBtn.addEventListener('click', () => {
-      window.location.href = apkUrl;
-    });
+  // Configura botão de download
+  const downloadBtn = document.getElementById('downloadBtn');
+  downloadBtn.addEventListener('click', () => {
+    window.location.href = 'app-debug.apk';
+  });
 
-    // 🔹 Download automático para Android
-    if (/Android/i.test(navigator.userAgent)) {
-      setTimeout(() => { window.location.href = apkUrl; }, 1000);
-    }
-  </script>
+  // Tenta download automático em Android
+  if (/Android/i.test(navigator.userAgent)) {
+    setTimeout(() => {
+      window.location.href = 'app-debug.apk';
+    }, 1000);
+  }
+</script>
 </body>
 </html>
