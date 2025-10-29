@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convite | MeuApp</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Convite para o Protótipo 🚀</h1>
+    <p id="info"></p>
+
+    <button id="downloadBtn">📲 Baixar Aplicativo</button>
+    <p class="note">Se o download não iniciar automaticamente, clique no botão acima.</p>
+  </div>
+
+<script>
+  // Captura o código do convite (última parte da URL)
+  const pathParts = window.location.pathname.replace(/\/$/, '').split('/');
+  const code = pathParts[pathParts.length - 1];
+
+  // Se for um código válido, salva para uso no app
+  if (code && code !== 'invite') {
+    localStorage.setItem('referralCode', code);
+  }
+
+  // Atualiza texto na página
+  const infoEl = document.getElementById('info');
+  if (code && code !== 'invite') {
+    infoEl.innerHTML = `Você foi convidado com o código: <strong>${code}</strong>`;
+  } else {
+    infoEl.textContent = 'Baixe o aplicativo e comece a usar agora mesmo.';
+  }
+
+  // Configura botão de download
+  const downloadBtn = document.getElementById('downloadBtn');
+  downloadBtn.addEventListener('click', () => {
+    window.location.href = 'app-debug.apk';
+  });
+
+  // Tenta download automático em Android
+  if (/Android/i.test(navigator.userAgent)) {
+    setTimeout(() => {
+      window.location.href = 'app-debug.apk';
+    }, 1000);
+  }
+</script>
+</body>
+</html>
