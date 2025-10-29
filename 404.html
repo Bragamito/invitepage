@@ -17,9 +17,8 @@
 
   <script>
     // 🔹 Captura código do link: /invite/XYZ
-    const pathParts = window.location.pathname.replace(/\/$/, '').split('/');
-    const code = pathParts[pathParts.length - 1];
-
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('ref');
     // 🔹 Salva no localStorage apenas se for válido
     if (code && !isNaN(code)) {
       localStorage.setItem('referralCode', code);
