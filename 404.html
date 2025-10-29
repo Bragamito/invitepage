@@ -15,36 +15,39 @@
     <p class="note">Se o download não iniciar automaticamente, clique no botão acima.</p>
   </div>
 
-<script>
-  // Captura o código do convite (última parte da URL)
-  const pathParts = window.location.pathname.replace(/\/$/, '').split('/');
-  const code = pathParts[pathParts.length - 1];
+  <script>
+    // 🔹 Captura código do link: /invite/XYZ
+    const pathParts = window.location.pathname.replace(/\/$/, '').split('/');
+    const code = pathParts[pathParts.length - 1];
 
-  // Se for um código válido, salva para uso no app
-  if (code && code !== 'invite') {
-    localStorage.setItem('referralCode', code);
-  }
+    // 🔹 Salva no localStorage apenas se for válido
+    if (code && !isNaN(code)) {
+      localStorage.setItem('referralCode', code);
+      console.log('Código do convite salvo:', code);
+    }
 
-  // Atualiza texto na página
-  const infoEl = document.getElementById('info');
-  if (code && code !== 'invite') {
-    infoEl.innerHTML = `Você foi convidado com o código: <strong>${code}</strong>`;
-  } else {
-    infoEl.textContent = 'Baixe o aplicativo e comece a usar agora mesmo.';
-  }
+    // 🔹 Mostra mensagem ao usuário
+    const infoEl = document.getElementById('info');
+    if (infoEl) {
+      infoEl.innerHTML = code
+        ? `Você foi convidado com o código: <strong>${code}</strong>`
+        : "Você está prestes a baixar o aplicativo.";
+    }
 
-  // Configura botão de download
-  const downloadBtn = document.getElementById('downloadBtn');
-  downloadBtn.addEventListener('click', () => {
-    window.location.href = 'app-debug.apk';
-  });
+    // 🔹 Configura botão de download
+    const downloadBtn = document.getElementById('downloadBtn');
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', () => {
+        window.location.href = 'app-debug.apk';
+      });
+    }
 
-  // Tenta download automático em Android
-  if (/Android/i.test(navigator.userAgent)) {
-    setTimeout(() => {
-      window.location.href = 'app-debug.apk';
-    }, 1000);
-  }
-</script>
+    // 🔹 Download automático para Android
+    if (/Android/i.test(navigator.userAgent) && code) {
+      setTimeout(() => {
+        window.location.href = 'app-debug.apk';
+      }, 1000);
+    }
+  </script>
 </body>
 </html>
