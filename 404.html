@@ -12,15 +12,15 @@
     <p id="info"></p>
     <button id="downloadBtn">Baixar Aplicativo</button>
     <p class="note">Se o download não iniciar automaticamente, clique no botão acima.</p>
-    <p>teste_0030</p>
+    <p>teste_0032</p>
   </div>
 
-  <script>
-    // 🔹 Captura código do link (/invitepage/?ref=XYZ)
+ <script>
+    // Captura o código do link ?ref=XYZ
     const params = new URLSearchParams(window.location.search);
     const code = params.get('ref');
 
-    // 🔹 Mostra mensagem
+    // Mostra o código na tela
     const infoEl = document.getElementById('info');
     if (infoEl) {
       infoEl.innerHTML = code
@@ -28,16 +28,14 @@
         : "Você está prestes a baixar o aplicativo.";
     }
 
-    // 🔹 Salva código localmente para o app
-    if (code) {
-      localStorage.setItem('referralCode', code.toUpperCase());
-    }
+    // Salva código localmente no navegador (para testes web)
+    if (code) localStorage.setItem('referralCode', code.toUpperCase());
 
-    // 🔹 Configura botão de download
+    // Botão de download do APK
     const downloadBtn = document.getElementById('downloadBtn');
     if (downloadBtn) {
       downloadBtn.addEventListener('click', () => {
-        window.location.href = 'app-debug.apk'; // Baixa o APK uma vez
+        window.location.href = 'app-debug.apk'; // Baixa uma vez
       });
     }
   </script>
