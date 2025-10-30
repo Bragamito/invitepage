@@ -19,8 +19,8 @@
     const pathParts = window.location.pathname.replace(/\/$/, '').split('/');
     let code = pathParts[pathParts.length - 1];
     if (!code || code === 'invite') {
-      const params = new URLSearchParams(window.location.search);
-      code = params.get('ref');
+          const params = new URLSearchParams(window.location.search);
+          const code = params.get('ref');
     }
 
     // 🔹 Mostra mensagem
@@ -57,4 +57,5 @@
     }
   </script>
 </body>
+</html>
 </html>
