@@ -16,20 +16,11 @@
   </div>
 
   <script>
-    // 🔹 Captura corretamente o código do link (prioriza ?ref=XYZ)
+    // 🔹 Captura código do link (/invitepage/?ref=XYZ)
     const params = new URLSearchParams(window.location.search);
-    let code = params.get('ref');
+    const code = params.get('ref');
 
-    // Caso o link venha no formato /invite/XYZ, tenta extrair do caminho
-    if (!code) {
-      const pathParts = window.location.pathname.replace(/\/$/, '').split('/');
-      const lastPart = pathParts[pathParts.length - 1];
-      if (lastPart && lastPart !== 'invite' && lastPart !== 'invitepage') {
-        code = lastPart;
-      }
-    }
-
-    // 🔹 Mostra mensagem correta
+    // 🔹 Mostra mensagem
     const infoEl = document.getElementById('info');
     if (infoEl) {
       infoEl.innerHTML = code
@@ -37,29 +28,17 @@
         : "Você está prestes a baixar o aplicativo.";
     }
 
-    // 🔹 Salva código localmente
+    // 🔹 Salva código localmente para o app
     if (code) {
       localStorage.setItem('referralCode', code.toUpperCase());
-    }
-
-    // 🔹 Se não houver código, redireciona para home (opcional)
-    if (!code) {
-      window.location.href = '/';
     }
 
     // 🔹 Configura botão de download
     const downloadBtn = document.getElementById('downloadBtn');
     if (downloadBtn) {
       downloadBtn.addEventListener('click', () => {
-        window.location.href = 'app-debug.apk';
+        window.location.href = 'app-debug.apk'; // Baixa o APK uma vez
       });
-    }
-
-    // 🔹 Download automático para Android
-    if (/Android/i.test(navigator.userAgent) && code) {
-      setTimeout(() => {
-        window.location.href = 'app-debug.apk';
-      }, 1000);
     }
   </script>
 </body>
