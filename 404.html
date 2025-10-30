@@ -34,8 +34,11 @@
     // 🔹 Salva código localmente
     if (code) {
       localStorage.setItem('referralCode', code.toUpperCase());
-      console.log('Código do convite salvo:', code);
     }
+
+    if (!code) {
+          window.location.href = '/';
+        }
 
     // 🔹 Configura botão de download
     const downloadBtn = document.getElementById('downloadBtn');
