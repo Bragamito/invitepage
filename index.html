@@ -10,49 +10,44 @@
   <div class="container">
     <h1>Convite para o Protótipo</h1>
     <p id="info"></p>
-
     <button id="downloadBtn">Baixar Aplicativo</button>
     <p class="note">Se o download não iniciar automaticamente, clique no botão acima.</p>
   </div>
 
   <script>
-    // 🔹 Captura referral code via query param "?ref=XYZ"
-    const queryParams = new URLSearchParams(window.location.search);
-    let referralCode = queryParams.get('ref');
-
-    // 🔹 Se não houver query param, tenta pegar do path "/invite/XYZ"
-    if (!referralCode) {
-      const pathParts = window.location.pathname.replace(/\/$/, '').split('/');
-      referralCode = pathParts[pathParts.length - 1] || null;
-
-      // Se for a rota /invite sem código, ignora
-      if (referralCode === 'invite') referralCode = null;
+    // 🔹 Captura código do link (/invite/XYZ ou ?ref=XYZ)
+    const pathParts = window.location.pathname.replace(/\/$/, '').split('/');
+    let code = pathParts[pathParts.length - 1];
+    if (!code || code === 'invite') {
+      const params = new URLSearchParams(window.location.search);
+      code = params.get('ref');
     }
 
-    // 🔹 Salva no localStorage se houver código
-    if (referralCode) {
-      localStorage.setItem('referralCode', referralCode);
-      console.log('Código do convite salvo:', referralCode);
-    }
-
-    // 🔹 Exibe mensagem
+    // 🔹 Mostra mensagem
     const infoEl = document.getElementById('info');
     if (infoEl) {
-      infoEl.innerHTML = referralCode
-        ? `Você foi convidado com o código: <strong>${referralCode}</strong>`
+      infoEl.innerHTML = code
+        ? `Você foi convidado com o código: <strong>${code}</strong>`
         : "Você está prestes a baixar o aplicativo.";
+    }
+
+    // 🔹 Salva código localmente
+    if (code) {
+      localStorage.setItem('referralCode', code.toUpperCase());
+      console.log('Código do convite salvo:', code);
     }
 
     // 🔹 Configura botão de download
     const downloadBtn = document.getElementById('downloadBtn');
     if (downloadBtn) {
       downloadBtn.addEventListener('click', () => {
+        // Faz o download do APK
         window.location.href = 'app-debug.apk';
       });
     }
 
     // 🔹 Download automático para Android
-    if (/Android/i.test(navigator.userAgent) && referralCode) {
+    if (/Android/i.test(navigator.userAgent) && code) {
       setTimeout(() => {
         window.location.href = 'app-debug.apk';
       }, 1000);
